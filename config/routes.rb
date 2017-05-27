@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
   resources :orders
   resources :in_shopping_carts
-  get 'carts/create'
-
-  get 'carts/destroy'
-
+  resources :carts, only: [:create, :destroy]
+  
   mount_devise_token_auth_for 'User', at: 'auth'
 
   resources :products, defaults: { format: 'json' }
