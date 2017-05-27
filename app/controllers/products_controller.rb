@@ -5,12 +5,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    #@products = Product.all
-    puts 'hola'
-    @search = Search.new(Product, 'motor')
-    puts 'hola2'
-    byebug
-    @products = @search.run
+    @products = Product.all
   end
 
   # GET /products/1
