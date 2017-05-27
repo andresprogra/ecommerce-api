@@ -5,4 +5,7 @@ class User < ActiveRecord::Base
           #,:confirmable
           #,:omniauthable
   include DeviseTokenAuth::Concerns::User
+  enum permission: [:client, :partner, :admin]
+  has_many :products
+  has_many :orders
 end

@@ -10,7 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170524223856) do
+ActiveRecord::Schema.define(version: 20170527222319) do
+
+  create_table "carts", force: :cascade do |t|
+    t.integer  "status",     default: 0
+    t.string   "ip"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "in_shopping_carts", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "cart_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id"], name: "index_in_shopping_carts_on_cart_id"
+    t.index ["product_id"], name: "index_in_shopping_carts_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "status",     default: 0
+    t.integer  "cart_id"
+    t.integer  "user_id"
+    t.string   "street"
+    t.string   "colonia"
+    t.string   "num_ext"
+    t.string   "num_int"
+    t.string   "phone"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["cart_id"], name: "index_orders_on_cart_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "price",              limit: 8
+    t.text     "description"
+    t.integer  "user_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.index ["user_id"], name: "index_products_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",               default: "email", null: false
@@ -36,7 +81,7 @@ ActiveRecord::Schema.define(version: 20170524223856) do
     t.text     "tokens"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
-    t.integer  "type"
+    t.integer  "permission",             default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
